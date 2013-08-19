@@ -9,9 +9,9 @@ class VeryImportantException extends Exception{
 	}
 }
 
-class CCError extends Throwable{
-	
-}
+//class CCError extends Throwable{
+//	
+//}
 public class E01_CheckedException {
 
 	/**
