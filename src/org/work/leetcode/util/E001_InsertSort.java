@@ -22,13 +22,17 @@ package org.work.leetcode.util;
  * @author a524690
  * 
  */
-public class InsertSort {
+public class E001_InsertSort {
 	public static void main(String[] args) {
-		// int[] array = {9,8,7,6,5,4,3,2,1,0};
-		Integer[] array = { 1, 1, 1 };
-		InsertSort.doSort(array);
-		for (int i = 0; i < array.length; i++)
-			System.out.print(array[i] + " ");
+		 int[] num = {9,8,7,3,6,5,5,4,3,2,1,0,0};
+		 E001_InsertSort obj = new E001_InsertSort();
+		 obj.insertSort(num);
+		 for(int n: num)
+			 System.out.println(n);
+//		Integer[] array = { 1, 1, 1 };
+//		InsertSort.doSort(array);
+//		for (int i = 0; i < array.length; i++)
+//			System.out.print(array[i] + " ");
 	}
 
 	public static void doSort(Integer[] array) {
@@ -42,6 +46,19 @@ public class InsertSort {
 				array[j + 1] = array[j];
 			}
 			array[j + 1] = currElem;
+		}
+	}
+	
+	public static void insertSort(int[] num){
+		if(num == null || num.length < 2)
+			return;
+		
+		for(int i = 1; i < num.length; i++){
+			int curr = num[i];
+			int j = i - 1;
+			for(; j >= 0 && num[j] > curr; j--)
+				num[j + 1] = num[j];
+			num[j + 1] = curr;
 		}
 	}
 

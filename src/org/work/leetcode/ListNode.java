@@ -7,4 +7,16 @@ public class ListNode {
 		this.val = val;
 		this.next = null;
 	} 
+	
+	public String toString(){
+		ListNode ptr = new ListNode(val);
+		ptr.next = next;
+		StringBuffer res = new StringBuffer();
+		while(ptr != null){
+			res.append(ptr.val);
+			res.append(", ");
+			ptr = ptr.next;
+		}
+		return res.toString();
+	}
 }

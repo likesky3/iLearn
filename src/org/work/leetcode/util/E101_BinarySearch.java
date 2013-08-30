@@ -1,6 +1,6 @@
 package org.work.leetcode.util;
 
-public class BinarySearch {
+public class E101_BinarySearch {
 	public int binarySearch(int[] A, int left, int right, int target){
 		if(left > right)
 			return -1;
