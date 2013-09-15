@@ -5,10 +5,13 @@ import java.util.Arrays;
 public class E085_3SumClosest { 
 
 	public int threeSumClosest(int[] num, int target) {
+		//sort
 		Arrays.sort(num);
+		
 		int res = 0;
 		int diff = Integer.MAX_VALUE;
 		for (int i = 0; i < num.length - 2; i++) {
+			//remove duplicates
 			if (i > 0 && num[i] == num[i - 1])
 				continue;
 			int p = i + 1;

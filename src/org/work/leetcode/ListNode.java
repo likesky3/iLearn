@@ -8,6 +8,9 @@ public class ListNode {
 		this.next = null;
 	} 
 	
+//	public ListNode() {
+//	}
+
 	public String toString(){
 		ListNode ptr = new ListNode(val);
 		ptr.next = next;

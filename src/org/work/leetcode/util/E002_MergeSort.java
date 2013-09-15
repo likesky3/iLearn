@@ -4,7 +4,7 @@ public class E002_MergeSort {
 
 	//left inclusive, right exclusive
 	public void mergeSort(int[] num, int left, int right, int[] tmp){
-		if(left + 1< right){//process when at least 2 numbers
+		if(left + 1< right){//process when at least 2 numbers!!!
 			int mid = (left + right) / 2;
 			mergeSort(num, left, mid , tmp);
 			mergeSort(num, mid, right, tmp);
@@ -34,5 +34,7 @@ public class E002_MergeSort {
 			k--;
 		}
 	}
+	
+	
 	
 }

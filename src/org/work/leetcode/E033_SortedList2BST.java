@@ -10,7 +10,8 @@ public class E033_SortedList2BST {
 		
 	}
 	
-	public TreeNode sortedListToBST(ListNode head) {
+	//version 1, list -> array
+	public TreeNode sortedListToBST1(ListNode head) {
 		if(head == null)
 			return null;
 		
@@ -33,6 +34,38 @@ public class E033_SortedList2BST {
 		TreeNode root = new TreeNode(num[mid]);
 		root.left = process(num, from, mid - 1);
 		root.right = process(num, mid + 1, to);
+		return root;
+	}
+	
+	//O(N), bottom up, in list order
+	private ListNode curr;
+	public TreeNode sortedListToBST(ListNode head){
+		if(head == null)
+			return null;
+		curr = head;
+		int len = 1;
+		ListNode p = head;
+		while(p.next != null){
+			len++;
+			p = p.next;
+		}
+		return build(0, len - 1);
+	}
+	
+	private TreeNode build(int start, int end){
+		if(start > end)
+			return null;
+		
+		int mid = start + (end - start) / 2; //avoid overflow;
+		TreeNode left = build(start, mid - 1);
+		
+		TreeNode root = new TreeNode(curr.val);
+		curr = curr.next;
+		
+		TreeNode right = build(mid +1, end);
+		
+		root.left = left;
+		root.right = right;
 		return root;
 	}
 	
