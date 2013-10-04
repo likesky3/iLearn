@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 public class Derived extends Base {
 

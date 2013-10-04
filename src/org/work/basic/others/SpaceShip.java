@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 //use inheritance to construct a spaceship
 //However, a Spaceship isn't really a type of SpaceShipController,

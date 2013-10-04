@@ -35,4 +35,36 @@ public class E022_FlattenTree2List {
 
 		return lastOfLeft;
 	}
+	
+	public void flatten2(TreeNode root) {
+        if(root == null)
+            return;
+        TreeNode right = root.right;
+        
+        
+        if(root.left != null){
+            root.right = root.left;
+            
+            TreeNode rightmost = root.left;
+            while(rightmost.right != null)
+                rightmost = rightmost.right;
+                
+            rightmost.right = right;
+            
+            root.left = null;
+            
+        }
+        
+        if(root.right != null)
+            flatten(root.right);
+        
+    }
+	
+	public static void main(String[] args){
+		E022_FlattenTree2List obj = new E022_FlattenTree2List();
+		TreeNode root = new TreeNode(1);
+		root.left = new TreeNode(2);
+		
+		obj.flatten2(root);
+	}
 }

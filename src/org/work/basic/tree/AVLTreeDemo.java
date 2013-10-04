@@ -1,6 +1,6 @@
 package org.work.basic.tree;
 
-public class E01_AVLTreeDemo {
+public class AVLTreeDemo {
 	
 	public AVLTree singleRotateLeft(AVLTree k2){
 		AVLTree k1 = k2.left;

@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 //Use with switch/Burrito.java
 public class Burrito{

@@ -3,10 +3,10 @@ package org.work.basic;
 
 import org.work.leetcode.*;
 
-public class TestException {
+public class ExceptionDemo {
 	public static void main(String[] args){
 		
-		TestException obj = new TestException();
+		ExceptionDemo obj = new ExceptionDemo();
 		//obj.f();
 		obj.g();		
 	}

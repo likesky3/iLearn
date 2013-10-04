@@ -6,8 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.util.Scanner;
 
-public class E001_IOoperation {
+public class IODemo {
 	public void readFromFile(String fileName) throws IOException {
 		BufferedReader in = new BufferedReader(new FileReader(fileName));
 		String line;
@@ -27,10 +28,19 @@ public class E001_IOoperation {
 	}
 
 	public static void main(String[] args) throws IOException {
-		E001_IOoperation obj = new E001_IOoperation();
-		obj.writeToFile("test.txt");
+		IODemo obj = new IODemo();
+//		obj.writeToFile("test.txt");
 
 		// read file
-		obj.readFromFile("test.txt");
+//		obj.readFromFile("test.txt");
+		Scanner cin = new Scanner(System.in);
+		int a, b;
+		while(cin.hasNext()){
+			a = cin.nextInt();
+			b = cin.nextInt();
+			System.out.println(a + b);
+		}
 	}
+	
+	
 }

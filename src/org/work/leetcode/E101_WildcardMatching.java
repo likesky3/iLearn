@@ -2,47 +2,22 @@ package org.work.leetcode;
 
 import java.util.TreeSet;
 
+//currently, version 4 is the best, version 5's idea is wonderful, more efficient, but need debugging 
 public class E101_WildcardMatching {
-
-	/**
-	 * @param args
-	 */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		E101_WildcardMatching obj = new E101_WildcardMatching();
-		boolean res = obj.isMatch2("baabb", "bb?a?a");
+		boolean res = obj.isMatch("abcedef", "*ab*ef");
 		System.out.println(res);
 	}
 
 	public boolean isMatch(String s, String p) {
-		return dfs(0, s.length(), s, p, 0);
+		return dfs(s, p, 0, 0);
 	}
 
-	// recursive version
-	private boolean dfs(int dep, int maxDep, String s, String p, int i) {
-		if (dep == maxDep) {
-			if (i == p.length())
-				return true;
-
-			while (i < p.length() && p.charAt(i) == '*')
-				i++;
-			return i < p.length() ? false : true;
-
-		}
-
-		if (i == p.length())
-			return false;
-		else if (p.charAt(i) == '*') {
-			return dfs(dep + 1, maxDep, s, p, i)
-					|| dfs(dep, maxDep, s, p, i + 1);
-		} else if (s.charAt(dep) == p.charAt(i) || p.charAt(i) == '?')
-			return dfs(dep + 1, maxDep, s, p, i + 1);
-		else
-			return false;
-	}
-	
 	//抓住重点，再填充细节
-	private boolean dfs2(String s, String p, int si, int pi) {
+	private boolean dfs(String s, String p, int si, int pi) {
+		System.out.println("si: " + si + ",  pi: " + pi);
 		if (si == s.length()) {
 			if (pi == p.length())
 				return true;
@@ -56,10 +31,10 @@ public class E101_WildcardMatching {
 		if (pi == p.length())
 			return false;
 		else if (p.charAt(pi) == '*') {
-			return dfs2(s, p, si + 1, pi)
-					|| dfs2(s, p, si, pi + 1);
+			return dfs(s, p, si + 1, pi)
+					|| dfs(s, p, si, pi + 1);
 		} else if (s.charAt(si) == p.charAt(pi) || p.charAt(pi) == '?')
-			return dfs2(s, p, si + 1, pi + 1);
+			return dfs(s, p, si + 1, pi + 1);
 		else
 			return false;
 	}
@@ -137,8 +112,10 @@ public class E101_WildcardMatching {
 	    int plenNoStar = 0;
 	    for (char c : p.toCharArray())
 	        if (c != '*') plenNoStar++;
-	    if (plenNoStar > s.length()) return false;
+	    if (plenNoStar > s.length()) return false;//模式串中非*字符的长度 > 待匹配串长度，则一定不能完全匹配
+	    if(plenNoStar == p.length() && plenNoStar < s.length()) return false; //模式串不含*，且长度<待匹配串长度，则不能完全匹配
 
+	    //s, p前面均加上一个空格，是为了简化初始化过程，若不然，需根据p首个字符的情况来分别进行初始化
 	    s = " " + s;
 	    p = " " + p;
 	    int slen = s.length();
@@ -155,13 +132,14 @@ public class E101_WildcardMatching {
 	            allStar = false;
 	        for (int si = slen - 1; si >= 0; si--) {
 	            if (si == 0) {
-	                dp[si] = allStar ? true : false;
+	                dp[si] = allStar ? dp[si] : false;
 	            } else if (p.charAt(pi) != '*') {
 	                if (s.charAt(si) == p.charAt(pi) || p.charAt(pi) == '?') dp[si] = dp[si-1];
 	                else dp[si] = false;
-	            } else {
+	            } else {//模式串当前位置为*，那么看上面和前面一个的状态值
+	            	if(p.charAt(pi - 1) == '*') continue;//successive '*' is equivalent to a single '*', so we may surpass them all
 	                int firstTruePos = firstTrueSet.isEmpty() ? Integer.MAX_VALUE : firstTrueSet.first();
-	                if (si >= firstTruePos) dp[si] = true;
+	                if (si >= firstTruePos) dp[si] = true;//上一轮(p[pi - 1])匹配的位置以及其后的都能用*匹配，所以都为true
 	                else dp[si] = false;
 	            }
 	            if (dp[si]) firstTrueSet.add(si);
@@ -170,4 +148,142 @@ public class E101_WildcardMatching {
 	    }
 	    return dp[slen - 1];
 	}
+	
+	//my version, faster than version 3 @ large,增加了更多的剪枝条件，而且没有用treeset
+	public boolean isMatch4(String s, String p) {
+	    // without this optimization, it will fail for large data set
+	    int plenNoStar = 0;
+	    for (char c : p.toCharArray())
+	        if (c != '*') plenNoStar++;
+	    if (plenNoStar > s.length()) return false;//模式串中非*字符的长度 > 待匹配串长度，则一定不能完全匹配
+	    if(plenNoStar == p.length() && plenNoStar != s.length()) return false; //模式串不含*，且长度!=待匹配串长度，则不能完全匹配
+
+	  //s, p前面均加上一个空格，是为了简化初始化过程，若不然，需根据p首个字符的情况来分别进行初始化
+	    s = " " + s;
+	    p = " " + p;
+	    int slen = s.length();
+	    int plen = p.length();
+
+	    boolean[] dp = new boolean[slen];
+	   int lastTruePos = 0;//记录上一轮非*字符匹配上的位置
+	   int currTruePos = Integer.MAX_VALUE;
+	    dp[0] = true;
+
+	    boolean allStar = true;
+	    for (int pi = 1; pi < plen; pi++) {
+	      //successive '*' is equivalent to a single '*', so we may surpass them all
+	        if(p.charAt(pi - 1) == '*' && p.charAt(pi) == '*') 
+	        	continue;
+	        
+	        if (p.charAt(pi) != '*')
+	            allStar = false;
+	        currTruePos = Integer.MAX_VALUE;
+	        for (int si = slen - 1; si >= 0; si--) {
+	            if (si == 0) {
+	                dp[si] = allStar ? dp[si] : false;
+	            } else if (p.charAt(pi) != '*') {
+	                if (s.charAt(si) == p.charAt(pi) || p.charAt(pi) == '?') dp[si] = dp[si-1];
+	                else dp[si] = false;
+	            } else {//模式串当前位置为*，那么看上面和前面一个的状态值
+	                if (si >= lastTruePos) dp[si] = true;//上一轮(p[pi - 1])匹配的位置以及其后的都能用*匹配，所以都为true
+	                else dp[si] = false;
+	            }
+	            if (dp[si]) currTruePos = si;
+	        }
+	        if(currTruePos == Integer.MAX_VALUE)//p[0..pi]不能匹配任何一个s[0..si]
+	        	return false;
+	        lastTruePos = currTruePos;
+	    }
+	    return dp[slen - 1];
+	}
+
+	/*version 5******************************************************/
+	//O(|s|)
+	//fail @ "mississippi", "m*iss*iss*"
+	public boolean isMatch5(String s, String p) {
+        if(s == null || s.isEmpty()){
+            if(p == null || p.isEmpty() || containsOnlyStar(p))
+                return true;
+            else
+                return false;
+        }
+        if(p == null || p.isEmpty())
+            return false;
+        
+        //both s & p is non-empty string
+        //calculate #chars in p after ignoring *
+        int plenNoStar = 0;
+	    for (char c : p.toCharArray())
+	        if (c != '*') plenNoStar++;
+	    if (plenNoStar > s.length()) return false;//模式串中非*字符的长度 > 待匹配串长度，则一定不能完全匹配
+	    if(plenNoStar == p.length() ){//模式串不含*
+	    	if(plenNoStar != s.length()) 
+	    		return false; //模式串不含*，且长度!=待匹配串长度，则不能完全匹配
+	    	else
+	    		 return check(s,0, p.length() - 1, p);
+	    }
+        
+	    //s.length > plenNostar
+        String[] tuples = p.split("\\*", -1);
+        int i = 0, j = tuples.length - 1;
+        int l = 0, r = s.length() - 1;
+        while(i <  j){
+        	int leftLen = tuples[i].length();
+        	if(leftLen > 0){
+        		if(!check(s, l, l + leftLen - 1, tuples[i]))
+        			return false;
+        		l += leftLen;
+        	}
+        	int rightLen = tuples[j].length();
+        	if(rightLen > 0){
+        		if(!check(s, r - rightLen + 1, r, tuples[j]))
+        			return false;
+        		r -= rightLen;
+        	}
+        	i++;
+        	j--;
+        }
+        //对s[l..r] 和  tuples[i]进行匹配，tuples[i]中可能含有多个?，s[l..r]长度可能大于tuples[i]长度
+        if(i == j){
+        	int c = 0; //前面待匹配的？个数
+        	for(int si = l, ti = 0; si <= r && ti < tuples[i].length(); ti++){
+        		int curr = tuples[i].charAt(ti) ;
+        		if(curr == '?'){
+        			c++;
+        			continue;
+        		}else{
+        			int match = s.indexOf(curr, l + c);
+        			if(match == -1)
+        				return false;
+        			c = 0;
+        			si++;
+        			l = match + 1;
+        		}
+        			
+        	}
+        }
+        
+        return true;
+        
+    }
+	
+	private boolean check(String s, int beg, int end, String p){
+		for(int si = beg, pi = 0; si <= end; si++, pi++){
+			 if(p.charAt(pi) != '?' && s.charAt(si) != p.charAt(pi))
+	                return false;
+		}
+		return true;
+	}
+    
+    private boolean containsOnlyStar(String p){
+        if(p == null || p.isEmpty())
+            return false;
+        for(int i = 0; i < p.length(); i++){
+            if(p.charAt(i) != '*')
+                return false;
+        }
+        return true;
+    }
+   
+    /*version 5******************************************************/
 }

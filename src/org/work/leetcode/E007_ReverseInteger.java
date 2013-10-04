@@ -2,8 +2,6 @@ package org.work.leetcode;
 
 public class E007_ReverseInteger {
 	 public int reverse(int x) {
-	        // Start typing your Java solution below
-	        // DO NOT write main() function
 	        int sign = 1;
 	        if(x < 0)
 	        {

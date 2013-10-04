@@ -25,8 +25,6 @@ package org.work.leetcode;
 public class E012_ValidPalindrome
 {
     public boolean isPalindrome(String s) {
-        // Start typing your Java solution below
-        // DO NOT write main() function
 	if(s == null || s.length() == 1)
 	    return true;
 	
@@ -57,8 +55,6 @@ public class E012_ValidPalindrome
     
     //Version 2
     public boolean isPalindrome_V2(String s) {
-        // Start typing your Java solution below
-        // DO NOT write main() function
         if(s == null)
         return false;
         if(s.isEmpty())
@@ -66,7 +62,6 @@ public class E012_ValidPalindrome
         
         int i = 0; 
         int j = s.length() - 1;
-        //flag = true;
         
         for(;i < j; i++, j--){
             while(i < j && !Character.isLetterOrDigit(s.charAt(i)))
@@ -83,4 +78,50 @@ public class E012_ValidPalindrome
         return true;
     }
     
+    //注意for循环的方式
+    public boolean isPalindrome2(String s) {
+        if(s == null || s.length() == 1)
+            return true;
+        
+        for(int i = 0, j = s.length() - 1; i < j;){
+            if(!isAlphanumeric(s.charAt(i)))
+                i++;
+            else if(!isAlphanumeric(s.charAt(j)))
+                j--;
+            else{ 
+                int front = s.charAt(i++);
+                if(front >= 'A' && front <= 'Z')
+                    front += 'a' - 'A';
+                int end = s.charAt(j--);
+                if(end >= 'A' && end <= 'Z')
+                    end += 'a' - 'A';
+                if(front != end)
+                    return false;
+            }
+        }
+        return true;
+    }
+    
+    private boolean isAlphanumeric(char a){
+        if((a >= 'a' && a <= 'z') || (a >= '0' && a <= '9'))
+            return true;
+        else
+            return false;
+    }
+    
+    public boolean isPalindrome3(String s) {
+        // Start typing your Java solution below
+        // DO NOT write main() function
+
+            s=s.toLowerCase();
+            s=s.replaceAll("[^a-z0-9]","");
+
+            for(int i=0;i<s.length()/2;i++)
+            {
+                if(s.charAt(i)!=s.charAt(s.length()-i-1))
+                return false;
+            }
+
+            return true;
+    }
 }

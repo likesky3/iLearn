@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 public abstract class Base {
 	Base(){

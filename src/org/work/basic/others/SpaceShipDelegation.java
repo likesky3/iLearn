@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 //use delegation to construct a spaceship
 //we will have more control with delegation since we

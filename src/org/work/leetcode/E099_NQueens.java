@@ -4,8 +4,11 @@ import java.util.ArrayList;
 
 public class E099_NQueens {
 	public static void main(String[] args) {
-		E099_NQueens obj = new E099_NQueens();
-		obj.solveNQueens(2);
+//		E099_NQueens obj = new E099_NQueens();
+//		obj.solveNQueens(2);
+		boolean[] a = new boolean[2];
+		for(boolean v: a)
+			System.out.println(v);
 	}
 
 	public ArrayList<String[]> solveNQueens(int n) {

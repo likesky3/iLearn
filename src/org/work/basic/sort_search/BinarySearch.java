@@ -1,6 +1,8 @@
-package org.work.leetcode.util;
+package org.work.basic.sort_search;
 
-public class E101_BinarySearch {
+public class BinarySearch {
+	
+	/**recursive version*/
 	public int binarySearch(int[] A, int left, int right, int target){
 		if(left > right)
 			return -1;

@@ -1,4 +1,4 @@
-package org.work.basic;
+package org.work.basic.others;
 
 class SpaceShipControls{
 	void up(int velocity){}

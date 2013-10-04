@@ -16,16 +16,16 @@
  * May 21, 2013 	   a524690		     Init
  *
  */
-package org.work.leetcode.util;
+package org.work.basic.sort_search;
 
 /**
  * @author a524690
  * 
  */
-public class E001_InsertSort {
+public class InsertSort {
 	public static void main(String[] args) {
 		 int[] num = {9,8,7,3,6,5,5,4,3,2,1,0,0};
-		 E001_InsertSort obj = new E001_InsertSort();
+		 InsertSort obj = new InsertSort();
 		 obj.insertSort(num);
 		 for(int n: num)
 			 System.out.println(n);
