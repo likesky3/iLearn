@@ -3,6 +3,21 @@ package org.work.basic;
 public class StringDemo {
 
 	public static void main(String[] args) {
+		constString();
+	}
+	
+	public static void constString(){
+//		String s1 = "hello";
+		String s1 = new String("hello");
+		if(s1=="hello"){
+			  System.out.println("s1 = \"hello\"");
+			}else{
+			 System.out.println("s1 !=hello");
+			}   
+	}
+	
+	/**performance of string, StringBuilder, StringBuffer*/
+	public static void performanceCompare(){
 		int LOOP_NUM = 1000000;
 		long start, end;
 		// way1: "str1" + "str2"
@@ -51,7 +66,6 @@ public class StringDemo {
 		end = System.currentTimeMillis();
 		System.out.println("way 5: " + (end - start));
 	}
-
 }
 
 //way4 > way5 > way3 >> way2

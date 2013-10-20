@@ -61,5 +61,19 @@ public class InsertSort {
 			num[j + 1] = curr;
 		}
 	}
+	
+	public static void insertSort(int[] num, int start, int end){
+		int length = end - start + 1;
+		if(num == null || length < 2)
+			return;
+		
+		for(int i = start + 1; i <= end; i++){
+			int curr = num[i];
+			int j = i - 1;
+			for(; j >= start && num[j] > curr; j--)
+				num[j + 1] = num[j];
+			num[j + 1] = curr;
+		}
+	}
 
 }

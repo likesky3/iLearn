@@ -1,6 +1,10 @@
 package org.work.leetcode;
 
-
+/**
+ * isPrefix(i,j) indicates s1.substr(0, i - 1)+s2.substr(0,j - 1)==s3.substr(0,i+j-1);
+isPrefix(i,j) = isPrefix(i-1,j)&&s1[i-1]==s3[i+j-1] || isPrefix(i,j-1)&&s2[j-1]==s3[i+j-1]
+Here, only an array is used to simplify the space overhead (O(min(len1, len2)))
+ * */
 public class E048_InterleavingString {
 	public boolean isInterleave(String s1, String s2, String s3) {
 		if(s1 == null && s2 == null)

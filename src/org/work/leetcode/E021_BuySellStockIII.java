@@ -29,8 +29,8 @@ import java.util.ArrayList;
  */
 public class E021_BuySellStockIII {
 	public static void main(String[] args) {
-		int[] test = { 6, 1, 3, 2, 4, 7 };
-		int profit2 = E021_BuySellStockIII.maxProfit3(test);
+		int[] test = {2,1,2,0,1 };
+		int profit2 = E021_BuySellStockIII.maxProfit5(test);
 		System.out.println(profit2);
 	}
 
@@ -119,30 +119,82 @@ public class E021_BuySellStockIII {
 		return max2;
 	}
 
-	// not correct
-	public static int maxProfit3(int[] prices) {
-		if (prices == null || prices.length < 2)
-			return 0;
-
-		int[][] f = new int[2][2];
-		int firstProfit = prices[1] - prices[0];
-		f[1][0] = firstProfit > 0 ? firstProfit : 0;
-		f[1][1] = firstProfit > 0 ? firstProfit : 0;
-		System.out.println(f[1][0] + " " + f[1][1]);
-		int lowest = prices[1] < prices[0] ? prices[1] : prices[0];
-		for (int k = 2; k < prices.length; k++) {
-			int i = k & 1;
-			int j = (k - 1) & 1;
-			if (prices[k] < lowest)
-				lowest = prices[k];
-			int currMax = prices[k] - lowest;
-			f[i][0] = currMax > f[j][0] ? currMax : f[j][0];
-			int lastProfit = prices[k] - prices[k - 1];
-			if (lastProfit < 0)
-				lastProfit = 0;
-			f[i][1] = Math.max(f[j][1], (f[j][0] + lastProfit));
-			System.out.println(f[i][0] + " " + f[i][1]);
-		}
-		return f[(prices.length - 1) & 1][1];
-	}
+	//数组中增幅最大和次大的递增子数组 - 不对，fail @ [1,2,4,2,5,7,2,4,9,0]
+    //问题的数学模型是：在无序数组中找到首尾差最大的两个区间
+	//后面两部分可以合并来求，参照上一版本& version5
+	public static int maxProfit4(int[] prices) {
+        if(prices == null || prices.length < 2) 
+            return 0;
+        
+        int n = prices.length;
+        int[] maxProfitSellAt = new int[n];
+        int[] maxProfitBuyAt = new int[n];
+        int max = 0, curr = 0;
+        int low = prices[0];
+        int high = prices[n-1];
+       
+        //scan from 0 to n-1 to calculate maxProfitSellAt day i
+        maxProfitSellAt[0] = 0;
+        for(int i = 1; i < n; i++){
+            if(prices[i] < low)
+                low = prices[i];
+             curr = prices[i] - low;
+             maxProfitSellAt[i] = maxProfitSellAt[i - 1] > curr ? maxProfitSellAt[i] : curr;
+        }
+        
+        //scan from n-1 to 0 to calculate maxProfitBuyAt day i
+         maxProfitBuyAt[n - 1] = 0;
+        for(int i = n - 2; i >= 0; i--){
+            if(prices[i] > high)
+                high = prices[i];
+            curr = high - prices[i];
+            maxProfitBuyAt[i] = maxProfitBuyAt[i + 1] > curr ? maxProfitBuyAt[i + 1] : curr;
+        }
+        for(int i = 0; i < n; i++){
+            curr = maxProfitSellAt[i] + maxProfitBuyAt[i];
+            if(curr > max)
+                max = curr;
+        }
+        return max;
+    }
+	
+	public static int maxProfit5(int[] prices) {
+        if(prices == null || prices.length < 2) 
+            return 0;
+        
+        int n = prices.length;
+        int[] maxProfitSellAt = new int[n];
+        //int[] maxProfitBuyAt = new int[n];
+        int max = 0, curr = 0;
+        int low = prices[0];
+        int high = prices[n-1];
+       
+        //scan from 0 to n-1 to calculate maxProfitSellAt day i
+        maxProfitSellAt[0] = 0;
+        for(int i = 1; i < n; i++){
+            if(prices[i] < low)
+                low = prices[i];
+             curr = prices[i] - low;
+             maxProfitSellAt[i] = maxProfitSellAt[i - 1] > curr ? maxProfitSellAt[i - 1] : curr;
+             System.out.println("low:" + low + " sellat:" + maxProfitSellAt[i]);
+        }
+        
+        System.out.println("---------");
+        //scan from n-1 to 0 to calculate maxProfitBuyAt day i
+        //maxProfitBuyAt[n - 1] = 0;
+         int twoTradesProfit = 0;
+         int buyAt = 0;
+        for(int i = n - 1; i >= 0; i--){
+            if(prices[i] >= high){
+                high = prices[i];
+                buyAt = 0;
+            }else
+                buyAt = high - prices[i];
+           System.out.println(buyAt);
+            twoTradesProfit = maxProfitSellAt[i] + buyAt;
+            if(twoTradesProfit > max)
+                max = twoTradesProfit;
+        }
+        return max;
+    }
 }
