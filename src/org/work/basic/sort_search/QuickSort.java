@@ -60,6 +60,22 @@ public class QuickSort {
 			}
 		}*/
 		
+		/** this implementation leads biased partition when all elements are same
+		 * inspired by Dutch National Flag problem
+		 * [0..i - 1] < pivot, [j+1, n - 1] >= pivot, [i .. j] unknown
+		 * int i = start + 1;
+		 * int j = end - 2;
+		 * while(i < j){ 
+		 * 		if(a[i] < pivot)
+		 * 			i++;
+		 * 		else{
+		 * 			swap(a, i, j);
+		 * 			j--;		
+		 * 		}
+		 * }
+		 * */
+		
+		//这个实现可以避免划分不均匀
 		int i = start;
 		int j = end - 1;
 		while (i < j) {
@@ -99,7 +115,10 @@ public class QuickSort {
 		array[i] = array[j];
 		array[j] = tmp;
 	}
-	
+	//  3-way quick sort
+	private static void quickSort2(int[]a, int start, int end){
+		
+	}
 	private static void quickSelect(int[] array, int start, int end,  int k) {
 		int length = end - start + 1;
 		
