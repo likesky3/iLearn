@@ -1,5 +1,6 @@
 package org.work.basic;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 enum Season {
@@ -14,12 +15,12 @@ public class Test {
 		}
 		System.out.println();
 	}
-	public static void main(String[] args) {
-		Test obj = new Test();
-		char[][] m = {{'0'}};
-		System.out.println(obj.longestValidParentheses(")"));
-	}
 	
+	
+    public static void main(String[] args) {
+
+    }
+
 	public int longestValidParentheses(String s) {
         // IMPORTANT: Please reset any member data you declared, as
         // the same Solution instance will be reused for each test case.

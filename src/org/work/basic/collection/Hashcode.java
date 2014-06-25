@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.commons.lang3.builder.HashCodeBuilder;
+//import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 class base{
 	int d;
@@ -32,7 +32,7 @@ public class Hashcode extends base {
 		c = argc;
 	}
 	
-	public int hashCode(){
+/*	public int hashCode(){
 		int res1 = HashCodeBuilder.reflectionHashCode(this, true);
 		int res2 = HashCodeBuilder.reflectionHashCode(this, false);
 		
@@ -46,7 +46,7 @@ public class Hashcode extends base {
 		System.out.println(res2);
 		System.out.println(res3);
 		return res3;
-	}
+	}*/
 	
 	public boolean equals(Object o){
 		if(! (o instanceof Hashcode))

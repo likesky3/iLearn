@@ -39,7 +39,6 @@ class SubClass extends AbstractDemo{
 	SubClass(int a){
 		super(a);
 	}
-	@Override
 	void abstractM4() {
 		// TODO Auto-generated method stub
 		
