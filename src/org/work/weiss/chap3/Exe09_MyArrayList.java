@@ -50,8 +50,10 @@ public class Exe09_MyArrayList<T> implements Iterable<T>{
 		System.out.println();
 	}
 	private static final int DEFAULT_CAPACITY = 10;
-	private int size;
-	private T[] theItems;
+//	private int size;
+//	private T[] theItems;
+	protected int size;
+	protected T[] theItems;
 	
 	public Exe09_MyArrayList() {
 		doClear();

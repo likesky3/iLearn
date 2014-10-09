@@ -6,13 +6,23 @@ public class Exe11_SinglyList<T> {
 
 	public static void main(String[] args) {
 		Exe11_SinglyList<Integer> list = new Exe11_SinglyList<>();
-		list.add(1);
-		list.add(1);
+//		list.add(1);
+//		list.add(1);
+//		list.print();
+//		list.add(2);
+//		list.remove(2);
+//		System.out.println(list.contains(2));
+//		System.out.println(list.contains(1));
+//		list.reverse();
+//		list.print();
+//		list.add(-1);
+//		list.reverse();
+//		list.print();
+		for (int i = 0; i < 5; i++)
+			list.add(i);
+		System.out.println(list.find(6));
+		System.out.println(list.find(3));
 		list.print();
-		list.add(2);
-		list.remove(2);
-		System.out.println(list.contains(2));
-		System.out.println(list.contains(1));
 	}
 	
 	private static class Node<T> {
@@ -89,6 +99,44 @@ public class Exe11_SinglyList<T> {
 			curr = curr.next;
 		}
 		throw new NoSuchElementException();
+	}
+	
+	//pos: 1, 1-2, 1-2-3; neg: empty
+	public void reverse() {
+		if (head.next == null) {
+			System.out.println("empty list");
+			return;
+		}
+		Node<T> firstHalf = head.next;
+		Node<T> secHalf = firstHalf.next;
+		Node<T> succNode;
+		firstHalf.next = null;
+		while (secHalf != null) {
+			succNode = secHalf.next;
+			secHalf.next = firstHalf;
+			firstHalf = secHalf;
+			secHalf = succNode;
+		}
+		head.next = firstHalf;
+	}
+	
+	public boolean find(T value) {
+		Node<T> prev = head;
+		while (prev != null) {
+			if (prev.next != null && value.equals(prev.next.value)) {
+				Node<T> target = prev.next;
+				prev.next = target.next;
+				target.next = head.next;
+				head.next = target;
+				return true;
+			} else if (prev.next == null) {
+				return false;
+			} else {
+				prev = prev.next;
+			}
+		}
+		
+		return false;
 	}
 	
 }

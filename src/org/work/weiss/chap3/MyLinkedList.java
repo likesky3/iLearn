@@ -204,13 +204,18 @@ public class MyLinkedList<T> implements Iterable<T> {
 	}
 	
 	public void splice(Iterator<T> itr, MyLinkedList<? extends T> lst) {
-		Node<T> firstNode = head.next;
+		Node<T> itrNode = head.next;
+		while (itrNode != tail && !itrNode.value.equals(itr.next()))
+			itrNode = itrNode.next;
+		if (itrNode == tail)
+			return;
+		
 		Node<T> firstLst = (Node<T>) lst.get(0);
-		head.next = firstLst;
-		firstLst.prev = head;
+		itrNode.prev.next = firstLst;
+		firstLst.prev = itrNode.prev;
 		Node<T> lastLst = (Node<T>)lst.get(lst.size() - 1); //O(N)
-		lastLst.next = firstNode;
-		firstNode.prev = lastLst;
+		lastLst.next = itrNode;
+		itrNode.prev = lastLst;
 		lst = null;
 	}
 	@Override
@@ -223,9 +228,9 @@ public class MyLinkedList<T> implements Iterable<T> {
 		return new ListIter();
 	}
 	
-	//need practice,×¢ÒâLinkedListIterator ²»ÒªÐ´³ÉLinkedListIterator<T>,
-	//²»È»curr = head.nextÐèÒªÀàÐÍ×ª»»¶øÇÒ²»ÄÜµ÷ÓÃMyLinkedList.this.remove(curr.prev);
-	//¿ÉÒÔÈÏÎªÊµÏÖ·ºÐÍ½Ó¿ÚµÄÀà¾ÍÊÇÒ»¸ö·ºÐÍÀà
+	//need practice,×¢ï¿½ï¿½LinkedListIterator ï¿½ï¿½ÒªÐ´ï¿½ï¿½LinkedListIterator<T>,
+	//ï¿½ï¿½È»curr = head.nextï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½×ªï¿½ï¿½ï¿½ï¿½ï¿½Ò²ï¿½ï¿½Üµï¿½ï¿½ï¿½MyLinkedList.this.remove(curr.prev);
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÊµï¿½Ö·ï¿½ï¿½Í½Ó¿Úµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	private class LinkedListIterator implements Iterator<T> {
 		private Node<T> curr = head.next;
 		private Node<T> lastReturned = null;
@@ -350,6 +355,8 @@ public class MyLinkedList<T> implements Iterable<T> {
 			System.out.print(iter.previous() + "\t");
 		System.out.println();
 	}
+	
+	
 
 }
 

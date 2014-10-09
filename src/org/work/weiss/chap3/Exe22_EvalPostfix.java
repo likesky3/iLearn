@@ -14,13 +14,14 @@ public class Exe22_EvalPostfix {
 //		for (String item : items)
 //			System.out.print(item + "\t");
 		Exe22_EvalPostfix instance = new Exe22_EvalPostfix();
-/*		for (int i = 0; i < infix.length; i++) {
+		for (int i = 0; i < infix.length; i++) {
 			String postfix = instance.infix2postfix(infix[i]);
-			System.out.println("infix " + i + ": " + infix[i]);
+			System.out.println("origin infix " + i + ": " + infix[i]);
 			System.out.println("postfix " + i + ": " + postfix);
-			System.out.println("result = " + instance.evalPostfix(postfix));
-			System.out.println();*/
-//		}
+			System.out.println("converted infix " + i + ": " + instance.postfix2infix(postfix));
+//			System.out.println("result = " + instance.evalPostfix(postfix));
+			System.out.println();
+		}
 		System.out.println(instance.evalPostfix());
 	}
 	
@@ -199,6 +200,44 @@ public class Exe22_EvalPostfix {
 			token = sc.next();
 		}
 		return s.peek();
+	}
+	
+	public String postfix2infix(String postfix) {
+		LinkedList<String> stack = new LinkedList<>();
+		String[] ops = postfix.split(" ");
+		HashSet<String> set = new HashSet();
+		set.add("+");
+		set.add("-");
+		set.add("*");
+		set.add("/");
+		set.add("^");
+		StringBuilder exp = new StringBuilder();
+		for (int i = 0; i < ops.length; i++) {
+			if (!set.contains(ops[i])) {
+				stack.push(ops[i]);
+			} else {
+				if (stack.size() < 2) {
+					System.out.println("err input");
+					System.exit(1);
+				}
+				String num2 = stack.pop();
+				String num1 = stack.pop();
+				exp.delete(0, exp.length());
+				exp.append("(");
+				exp.append(num1).append(" ");
+				exp.append(ops[i]).append(" ");
+				exp.append(num2).append(" ");
+				exp.append(")");
+				stack.push(exp.toString());
+			}
+		}
+		String ret = null;
+		if (stack.size() == 1) {
+			ret = stack.pop();
+		}
+		if (!stack.isEmpty())
+			System.out.println("err input");
+		return ret;
 	}
 	
 }
