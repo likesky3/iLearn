@@ -16,10 +16,19 @@ public class Solution {
 	public static void main(String[] args) {
 		
 		Solution obj = new Solution();
-		for(String s: obj.generatePwd())
-			System.out.println(s);
-		
+		String s = "00000000000000000000000000000001";
+		obj.reverseBits(Integer.valueOf(s));
 	}
+	 public int reverseBits(int n) {
+	     System.out.println("input=" + n);
+	        StringBuilder sb = new StringBuilder();
+	        for (int i = 0; i < 32; i++) {
+	            sb.append(n & 1);
+	            n = n >> 1;
+	        }
+	        return Integer.valueOf(sb.toString());
+	    }
+	
 	
 	public ArrayList<String> generatePwd(){
 		ArrayList<String> res = new ArrayList<String>();

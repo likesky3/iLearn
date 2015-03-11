@@ -3,7 +3,7 @@ package org.work.leetcode;
 import java.util.ArrayList;
 
 
-public class E001_PalindromePartition1 {
+public class PalindromePartition1 {
 	
 	static boolean isPalindromePartition(String str)
 	{

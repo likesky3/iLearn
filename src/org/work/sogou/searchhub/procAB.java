@@ -39,7 +39,10 @@ public class procAB {
 			}
 			 PrintStream ps = new PrintStream(output);   
 		     ps.print(outBuffer.toString());
-				
+			
+		     readerA.close();
+		     readerB.close();
+		     output.close();
 		}catch (Exception e) {
 			// TODO: handle exception
 		}

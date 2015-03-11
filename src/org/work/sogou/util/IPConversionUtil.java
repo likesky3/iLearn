@@ -1,10 +1,11 @@
-package org.work.sogou.searchhub;
+package org.work.sogou.util;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.PrintWriter;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.util.LinkedList;
 
 public class IPConversionUtil {
 	public static void main(String[] args) {
@@ -44,14 +45,14 @@ public class IPConversionUtil {
 				String ips[] = ip.split("\\.");
 //				 System.out.println(ips.length);
 				String res = "";
-				long ten = 0;
+//				long ten = 0;
 				for (int i = 0; i < 4; i++) {
 					Integer a = Integer.valueOf(ips[i]);
 					String b = Integer.toHexString(a.intValue());
 					if (b.length() == 1)
 						b = "0" + b;
 					res = b + res;
-					ten = ten * 256 + a.intValue();
+//					ten = ten * 256 + a.intValue();
 				}
 				System.out.println(res.toUpperCase());
 //				out.println(res.toUpperCase());

@@ -4,6 +4,9 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+
+import org.work.leetcode.TreeNode;
 
 enum Season {
 	SPRING, SUMMER, FALL, WINTER
@@ -19,38 +22,18 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
-		// HashMap<String, String> map = new HashMap<>();
-		// map.put("1", "2");
-		// if (map.get("0").equals("0"))
-		// System.out.println("you");
-
-		int aint = '}';
-		byte abyte = (byte) aint;
-		char[] achar = new char[2];
-		achar[0] = (char) abyte;
-		achar[1] = '}';
-		byte[] bytebuffer;
-		byte[] bytebuffer2;
-		try {
-			bytebuffer = new String(achar).getBytes();
-			for (int i = 0; i < bytebuffer.length; i++)
-				System.out.println(bytebuffer[i]);
-			System.out.println("-----");
-			bytebuffer2 = "12".getBytes("UTF-16LE");
-			for (int i = 0; i < bytebuffer2.length; i++)
-				System.out.println(bytebuffer2[i]);
-			System.out.println("-----");
-			String astring = new String(bytebuffer);
-			System.out.println(aint + " " + abyte + " " + astring + "; " + "}");
-			StringBuilder stringBuilder = new StringBuilder(astring);
-			stringBuilder.deleteCharAt(astring.length() - 1);
-			System.out.println(stringBuilder.toString());
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		int a = 1 + + 2;
+		System.out.println(a);
 	}
 
+	public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
+	    ArrayList<ArrayList<Integer>> result = new ArrayList<ArrayList<Integer>>(); 
+        if (root == null)
+            return result;
+        ArrayList<Integer> list = new ArrayList<>();
+        LinkedList<Integer> queue;
+        return result;
+	}
 	public int longestValidParentheses(String s) {
 		// IMPORTANT: Please reset any member data you declared, as
 		// the same Solution instance will be reused for each test case.

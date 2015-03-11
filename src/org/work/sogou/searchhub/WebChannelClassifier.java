@@ -4,15 +4,21 @@ package org.work.sogou.searchhub;
 //import com.sohu.uigs.app.web.BdBlacklist;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/*public class WebChannelClassifier {
+public class WebChannelClassifier {
     public static Set<String> finalpageMap    = new HashSet<String>();
     public static Set<String>           newFinalpageMap = new HashSet<String>();
 
@@ -29,11 +35,11 @@ import java.util.regex.Pattern;
         return null;
     }
 
-    *//**
+    /**
      * 用来表示与商业统一起来的分渠道逻辑层次的第二层的类型
      *
      * @author loudly
-     *//*
+     */
     public enum SecondCategoryType {
         BD("bd"), // BD购买
         BD_BLACKLIST("bd_blacklist"), // 商业部门的黑名单
@@ -66,12 +72,12 @@ import java.util.regex.Pattern;
 	    }
     }
 
-    *//**
+    /**
      * 用来表示与商业统一起来的分渠道逻辑层次的主要层的类型
      *
      * @author loudly
      *
-     *//*
+     */
     public enum MainCategoryType {
         BD("bd"), // BD购买
         BD123("bd123"), // 123购买
@@ -197,11 +203,11 @@ import java.util.regex.Pattern;
         	return stdPid;
         }
 
-        *//**
+        /**
          *
          * @return
          * @throws ClassifyException 遇到一条无法分类的日志，上层应用应该抛弃并计数
-         *//*
+         */
         public Classifier invoke( long    logtimestamp  ) throws ClassifyException{
             // 渠道划分
             urlType = "";
@@ -216,12 +222,12 @@ import java.util.regex.Pattern;
 		            || url.indexOf("http://wwwtest.sogou.com/sogou?") == 0) {
                 uri = "sogou";
 
-                if(url.indexOf("http://wwwtest.sogou.com/sgtest?") == 0) {
-                	Map<String, String> urlHm = ToolKits.getParameterHmFromURL(url);
-        			if(urlHm.containsKey("unid")) {
-        				pid = urlHm.get("unid");
-        			}
-                }
+//                if(url.indexOf("http://wwwtest.sogou.com/sgtest?") == 0) {
+//                	Map<String, String> urlHm = ToolKits.getParameterHmFromURL(url);
+//        			if(urlHm.containsKey("unid")) {
+//        				pid = urlHm.get("unid");
+//        			}
+//                }
 
                 stdPid = WebChannelClassifier.getStdPid(pid);
                 if (pid == null || "".equals(pid) || pid.equalsIgnoreCase("null")) {
@@ -310,10 +316,10 @@ import java.util.regex.Pattern;
                     }
                     else {
 	                    
-	                     * 目前对于未在网页渠道配置文件，不是123购买、BD网吧、BD网址站的情况
+/*	                     * 目前对于未在网页渠道配置文件，不是123购买、BD网吧、BD网址站的情况
 	                     * 1. 如果其存在瀚海配置文件，且可以通过网页瀚海关联文件进行转换，则转化为对应的网页渠道
 	                     * 2. 如果其存在瀚海配置文件，但不能转化的归类的，在网页增加新的渠道类别
-	                     * 3. 如果不在瀚海配置文件中，不再将其归至BD其他，而是放到无效PID中
+	                     * 3. 如果不在瀚海配置文件中，不再将其归至BD其他，而是放到无效PID中*/
 	                     
 
 	                    // 未在网页渠道配置文件，但在瀚海渠道配置文件中
@@ -346,12 +352,12 @@ import java.util.regex.Pattern;
 				                    secondCategory = WebChannelClassifier.SecondCategoryType.TENCENT;
 			                    }
 			                    else if(channel.equals("BD")){
-			                         在瀚海配置文件中的pc外购中，才能归类成BD其他 
+//			                         在瀚海配置文件中的pc外购中，才能归类成BD其他 
 				                    mainCategory = WebChannelClassifier.MainCategoryType.BD;
 				                    secondCategory = WebChannelClassifier.SecondCategoryType.BD;
 			                    }
 		                    } else {
-								 在瀚海配置文件中，但不能转化成网页渠道，应该自动归入新的网页渠道 
+//								 在瀚海配置文件中，但不能转化成网页渠道，应该自动归入新的网页渠道 
 			                    channel = financeSecondCategory;
 			                    subChannel = financeSecondCategory;
 			                    mainCategory = MainCategoryType.NEW_CHANNEL;
@@ -369,18 +375,18 @@ import java.util.regex.Pattern;
                     }
 
                     // 命中了BD黑名单的pid要归为自有非优质
-                    final Date date = new Date(logtimestamp);
-                    if (mainCategory == WebChannelClassifier.MainCategoryType.BD
-                            && BdBlacklist.getInstance(dateFormatter.format(date)).isPidInBlacklist(pid)) {
-                        mainCategory = WebChannelClassifier.MainCategoryType.OWN_NOT_GOOD;
-                        secondCategory = WebChannelClassifier.SecondCategoryType.BD_BLACKLIST;
-
-	                    channel = "BD黑名单";
-	                    subChannel = "BD黑名单";
-
-	                    financeFirstCategory = "pc自有—搜狗渠道";
-	                    financeSecondCategory = "BD黑名单";
-                    }
+//                    final Date date = new Date(logtimestamp);
+//                    if (mainCategory == WebChannelClassifier.MainCategoryType.BD
+//                            && BdBlacklist.getInstance(dateFormatter.format(date)).isPidInBlacklist(pid)) {
+//                        mainCategory = WebChannelClassifier.MainCategoryType.OWN_NOT_GOOD;
+//                        secondCategory = WebChannelClassifier.SecondCategoryType.BD_BLACKLIST;
+//
+//	                    channel = "BD黑名单";
+//	                    subChannel = "BD黑名单";
+//
+//	                    financeFirstCategory = "pc自有—搜狗渠道";
+//	                    financeSecondCategory = "BD黑名单";
+//                    }
                 }
                 else if (pid != null && stdPid == null) {
                     if(pid.toLowerCase().startsWith("5f0ef")) {
@@ -470,14 +476,15 @@ import java.util.regex.Pattern;
 		                financeSecondCategory = "搜狗自有（含最终页）";
 	                }
                 } else {
-	                channel = "web_pid_invalid";
-	                subChannel = "web_pid_invalid";
+	                channel = "web_PID_INVALID";
+	                subChannel = "web_PID_INVALID";
+//	                subChannel = "PID_INVALID";
 
 	                mainCategory = WebChannelClassifier.MainCategoryType.OWN_GOOD;
 	                secondCategory = WebChannelClassifier.SecondCategoryType.WEB;
 
 	                financeFirstCategory = "financeFirstCategory_unknown";
-	                financeSecondCategory = "financeSecondCategory_web_pid_invalid";
+	                financeSecondCategory = "financeSecondCategory_web_PID_INVALID";
                 }
             }
             else if (url.indexOf("http://www.sogou.com/sohu?") == 0) {
@@ -505,13 +512,14 @@ import java.util.regex.Pattern;
 	                financeFirstCategory = "pc自有—搜狗渠道";
 	                financeSecondCategory = "sohu";
                 } else {
-	                channel = "sohu_pid_invalid";
-	                subChannel = "sohu_pid_invalid";
+	                channel = "sohu_PID_INVALID";
+	                subChannel = "sohu_PID_INVALID";
+//	                subChannel = "PID_INVALID";
 	                mainCategory = MainCategoryType.OWN_GOOD;
 	                secondCategory = SecondCategoryType.SOHU;
 
 	                financeFirstCategory = "financeFirstCategory_unknown";
-	                financeSecondCategory = "financeSecondCategory_sohu_pid_invalid";
+	                financeSecondCategory = "financeSecondCategory_sohu_PID_INVALID";
                 }
             }
             else if (url.indexOf("http://www.sogou.com/quan?") == 0) {
@@ -538,7 +546,7 @@ import java.util.regex.Pattern;
 
             	stdPid = WebChannelClassifier.getStdPid(pid);
 
-	             财务渠道计算直接使用pid 
+//	             财务渠道计算直接使用pid 
 	            if(stdPid != null && FinancePidCategory.containsPid(stdPid)) {
 		            financeFirstCategory = FinancePidCategory.getFirstCategory(stdPid);
 		            financeSecondCategory = FinancePidCategory.getSecondCategory(stdPid);
@@ -553,20 +561,20 @@ import java.util.regex.Pattern;
 			            subChannel = subChannel + "_soso";
 		            }
                 } else {
-                    Map<String, String> urlHm = ToolKits.getParameterHmFromURL(url);
-                    String cid = null;
-                    if(urlHm.containsKey("cid")) {
-                        cid = urlHm.get("cid");
-                    } else if(pid != null){
-                        String[] pidArray = pid.split("-");
-                        if(pidArray != null && pidArray.length >= 2) {
-                            cid = pidArray[pidArray.length - 1];
-                        }
-                    }
-                    if(cid != null && SosoCidChannel.hasCid(cid)) {
-                        channel = SosoCidChannel.getChannel(cid);
-                        subChannel = SosoCidChannel.getChannel(cid);
-                    }
+//                    Map<String, String> urlHm = ToolKits.getParameterHmFromURL(url);
+//                    String cid = null;
+//                    if(urlHm.containsKey("cid")) {
+//                        cid = urlHm.get("cid");
+//                    } else if(pid != null){
+//                        String[] pidArray = pid.split("-");
+//                        if(pidArray != null && pidArray.length >= 2) {
+//                            cid = pidArray[pidArray.length - 1];
+//                        }
+//                    }
+//                    if(cid != null && SosoCidChannel.hasCid(cid)) {
+//                        channel = SosoCidChannel.getChannel(cid);
+//                        subChannel = SosoCidChannel.getChannel(cid);
+//                    }
             	}
 
 	            if(channel != null) {
@@ -595,25 +603,59 @@ import java.util.regex.Pattern;
 		Date date = sdf.parse(ymd);
 		long logtimestamp = date.getTime();
 
-		BufferedReader stdin = new BufferedReader(new InputStreamReader(System.in));
+		String pidListFile = "D:/url_pid";
+		File sogou_output = new File("D:/sogou_invalid_pid");
+		PrintWriter sogou_out= new PrintWriter(sogou_output);
+		File web_output = new File("D:/web_invalid_pid");
+		PrintWriter web_out= new PrintWriter(web_output);
+		File sohu_output = new File("D:/sohu_invalid_pid");
+		PrintWriter sohu_out= new PrintWriter(sohu_output);
+		BufferedReader stdin = new BufferedReader(new InputStreamReader(new FileInputStream(pidListFile)));
 		String line = null;
+		int sogou_invalid_pid_num = 0;
+		int web_invalid_pid_num = 0;
+		int sohu_invalid_pid_num = 0;
+		int total_pid_num = 0;
+		long start = System.currentTimeMillis();
 		while ((line = stdin.readLine()) != null) {
 			String[] info = line.split("\t");
-			if (info != null && info.length == 4) {
+			if (info != null && info.length == 2) {
+				total_pid_num++;
 				String url = info[0];
 				String pid = info[1];
-				String intcat = info[2];
-				String p = info[3];
+//				String intcat = info[2];
+//				String p = info[3];
+				String intcat = null;
+				String p = null;
 
 				Classifier classifier = new Classifier(url, pid, p, intcat).invoke(logtimestamp);
-				String channel = classifier.getChannel();
+//				String channel = classifier.getChannel();
 				String subChannel = classifier.getSubChannel();
-				String financeFirstCategory = classifier.getFinanceFirstCategory();
-				String financeSecondCategory = classifier.getFinanceSecondCategory();
-				System.out.println(url + "\t" + pid + "\t" + intcat + "\t" + p + "\t" +
-						channel + "\t" + subChannel + "\t" + financeFirstCategory + "\t" + financeSecondCategory);
+//				String financeFirstCategory = classifier.getFinanceFirstCategory();
+//				String financeSecondCategory = classifier.getFinanceSecondCategory();
+				if(subChannel.equals("PID_INVALID")) {
+					sogou_invalid_pid_num++;
+					sogou_out.println(url + "\t" + pid  + "\t" + subChannel);
+				} else if (subChannel.equals("web_PID_INVALID")) {
+					web_invalid_pid_num++;
+					web_out.println(url + "\t" + pid  + "\t" + subChannel);
+				} else if (subChannel.equals("sohu_PID_INVALID")) {
+					sohu_invalid_pid_num++;
+					sohu_out.println(url + "\t" + pid  + "\t" + subChannel);
+				}
+//				System.out.println(url + "\t" + pid  + "\t" + intcat + "\t" + p  + "\t" +
+//						channel + "\t" + subChannel + "\t" + financeFirstCategory + "\t" + financeSecondCategory);
 			}
 		}
+		System.out.println("sogou_invalid_pid_num = " + sogou_invalid_pid_num);
+		System.out.println("web_invalid_pid_num = " + web_invalid_pid_num);
+		System.out.println("sohu_invalid_pid_num = " + sohu_invalid_pid_num);
+		System.out.println("all_invalid_pid_num = " + (sogou_invalid_pid_num + web_invalid_pid_num + sohu_invalid_pid_num));
+		System.out.println("total_pid_num = " + total_pid_num);
+		System.out.println("cost time = " + (System.currentTimeMillis() - start) / 1000);
 		stdin.close();
+		sogou_out.close();
+		web_out.close();
+		sohu_out.close();
 	}
-}*/
+}

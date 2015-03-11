@@ -229,7 +229,3 @@ public class MyTreeSet<AnyType extends Comparable<? super AnyType>> {
 	}
 	
 }
-
-class UnderFlowException extends Exception {
-	
-}

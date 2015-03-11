@@ -2,13 +2,16 @@ package org.work.weiss.chap3;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.sun.corba.se.impl.orbutil.graph.Node;
+import static org.mockito.Mockito.*;
 
 public class Exe09_MyArrayList<T> implements Iterable<T>{
 
 	public static void main(String[] args) {
+	    
 		ArrayList<Integer> stdArrayList = new ArrayList<>();
 		for (int i = 0; i < 5; i++)
 			stdArrayList.add(i);
@@ -49,6 +52,7 @@ public class Exe09_MyArrayList<T> implements Iterable<T>{
 			System.out.print(reverseIter.next() + "\t");
 		System.out.println();
 	}
+
 	private static final int DEFAULT_CAPACITY = 10;
 //	private int size;
 //	private T[] theItems;
