@@ -1,11 +1,9 @@
 package org.work.basic;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
+import org.work.basic.OuterClass.StaticInnerClass;
 import org.work.leetcode.TreeNode;
 
 enum Season {
@@ -22,8 +20,17 @@ public class Test {
 	}
 
 	public static void main(String[] args) {
-		int a = 1 + + 2;
-		System.out.println(a);
+//	    System.out.println(Integer.parseInt("acf0e0bd".substring(0, 7), 16));
+//	    System.out.println(Integer.parseInt("2ffe2b07".substring(0, 7), 16));
+//	    System.out.println(Integer.parseInt("8744e5de".substring(0, 7), 16));
+//	    System.out.println(Integer.parseInt("b12c6e18".substring(0, 7), 16));
+	    
+	    StaticInnerClass intance = new StaticInnerClass();
+	    intance.age2 = 23;
+	    System.out.println(intance.hashCode() + " " + intance.age2);
+	    StaticInnerClass intance2 = new StaticInnerClass();
+	    intance2.age2 = 100;
+        System.out.println(intance2.hashCode() + " " + intance.age2 + " " + intance2.age2);
 	}
 
 	public ArrayList<ArrayList<Integer>> levelOrder(TreeNode root) {
