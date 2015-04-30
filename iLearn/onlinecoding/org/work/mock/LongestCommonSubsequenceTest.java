@@ -37,6 +37,63 @@ class LongestCommonSubsequence {
         return s.length() - dp[lengthS][lengthT];
     }
     
+    public int getLengthOfLongestCommonSubsequence2(String s, String t) {
+        if (s == null || t== null || s.length() == 0 || t.length() == 0)
+            return 0;
+        int lengthS = s.length();
+        int lengthT = t.length();
+        int[][] dp = new int[lengthS + 1][lengthT + 1];
+        for (int j = 0; j <= lengthT; j++)
+            dp[0][j] = 0;
+        for (int i = 1; i <= lengthS; i++) {
+            dp[i][0] = 0;
+            for (int j = 1; j <= lengthT; j++) {
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        return dp[lengthS][lengthT];
+        
+    }
+    
+    public String getLongestCommonSubsequence(String s, String t) {
+        if (s == null || t== null || s.length() == 0 || t.length() == 0)
+            return "";
+        int lengthS = s.length();
+        int lengthT = t.length();
+        int[][] dp = new int[lengthS + 1][lengthT + 1];
+        for (int j = 0; j <= lengthT; j++)
+            dp[0][j] = 0;
+        for (int i = 1; i <= lengthS; i++) {
+            dp[i][0] = 0;
+            for (int j = 1; j <= lengthT; j++) {
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        //backtracing
+        int i = lengthS;
+        int j = lengthT;
+        StringBuilder lcs = new StringBuilder();
+        while(i > 0 && j > 0) {
+            if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                lcs.append(s.charAt(i - 1));
+                i--;
+                j--;
+            } else if (dp[i][j] == dp[i - 1][j]) {
+                i--;
+            } else if (dp[i][j] == dp[i][j - 1]) {
+                j--;
+            } 
+        }
+        return lcs.reverse().toString();
+    }
     
 }
 public class LongestCommonSubsequenceTest {
@@ -51,4 +108,24 @@ public class LongestCommonSubsequenceTest {
         assertEquals(0, obj.getLengthOfLongestCommonSubsequence("aaaaaaaaaaaaaaaaaaaaaaaaaa", "b"));
     }
 
+    @Test
+    public void testGetLengthOfLongestCommonSubsequence2() {
+        LongestCommonSubsequence obj = new LongestCommonSubsequence();
+        assertEquals(0, obj.getLengthOfLongestCommonSubsequence2(null, null));
+        assertEquals(0, obj.getLengthOfLongestCommonSubsequence2("", ""));
+        assertEquals(4, obj.getLengthOfLongestCommonSubsequence2("leetcode", "codejam"));
+        assertEquals(4, obj.getLengthOfLongestCommonSubsequence2("abcd", "1a2b3c4d"));
+        assertEquals(0, obj.getLengthOfLongestCommonSubsequence2("aaaaaaaaaaaaaaaaaaaaaaaaaa", "b"));
+    }
+    
+    @Test
+    public void testGetOfLongestCommonSubsequence() {
+        LongestCommonSubsequence obj = new LongestCommonSubsequence();
+        assertEquals("", obj.getLongestCommonSubsequence(null, null));
+        assertEquals("", obj.getLongestCommonSubsequence("", ""));
+        assertEquals("code", obj.getLongestCommonSubsequence("leetcode", "codejam"));
+        assertEquals("abcd", obj.getLongestCommonSubsequence("abcd", "1a2b3c4d"));
+        assertEquals("", obj.getLongestCommonSubsequence("aaaaaaaaaaaaaaaaaaaaaaaaaa", "b"));
+        assertEquals("abcdef", obj.getLongestCommonSubsequence("abcdef", "xxabxxtcdsdfhef"));
+    }
 }

@@ -161,6 +161,13 @@ public class EditDistance {
         return min;
     }
     
+    public int numDistinct(String s, String t) {
+        if (s == null || s.length() == 0 || t.length() == 0)
+            return 0;
+        if (t.length() == 0)
+            return 1;
+        return 0;
+    }
     private void calculateEditDistance(String s, String t, int insertionCost, int deletionCost, int substitutionCost, int[][] dp) {
         int lengthS = s.length();
         int lengthT = t.length();
