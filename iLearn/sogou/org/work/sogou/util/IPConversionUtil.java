@@ -1,20 +1,37 @@
 package org.work.sogou.util;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.PrintWriter;
-import java.io.InputStreamReader;
 import java.io.FileInputStream;
-import java.util.LinkedList;
+import java.io.InputStreamReader;
 
 public class IPConversionUtil {
 	public static void main(String[] args) {
 		IPConversionUtil obj = new IPConversionUtil();
+		obj.convertIP1();
+		System.out.println("\n=======FILE=======");
 		obj.convertIP();
 	}
 	
+	public void convertIP1() {
+        String ip = "106.38.133.14";
+        String ips[] = ip.split("\\.");
+        String res = "";
+//              long ten = 0;
+        for (int i = 0; i < 4; i++) {
+            Integer a = Integer.valueOf(ips[i]);
+            String b = Integer.toHexString(a.intValue());
+            if (b.length() == 1)
+                b = "0" + b;
+            res = b + res;
+//                  ten = ten * 256 + a.intValue();
+        }
+        System.out.println(res.toUpperCase());
+//              out.println(res.toUpperCase());
+	}
+	
+	
 	public void convertIP() {
-		// antispider ip转换工具
+		// antispider ip
 //		PrintWriter out = null;
 //		File f = new File("D:/ip_res");
 //		if (!f.exists())
@@ -26,13 +43,11 @@ public class IPConversionUtil {
 //		try {
 //			out = new PrintWriter(f, "gbk");
 //		} catch (Exception e) {
-//			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
 
 		BufferedReader reader = null;
 		try {
-			//TODO
 			reader = new BufferedReader(new InputStreamReader(new FileInputStream("D:/ip_res"), "gbk"));
 
 			StringBuilder builder = new StringBuilder();
