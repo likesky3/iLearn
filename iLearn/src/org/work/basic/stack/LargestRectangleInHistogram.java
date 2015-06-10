@@ -65,4 +65,183 @@ public class LargestRectangleInHistogram {
         
         return max;
     }
+    
+    // method 4
+    public int largestRectangleArea4(int[] height) {
+        
+        if (height == null || height.length == 0)
+            return 0;
+        int max = 0;
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < height.length; i++) {
+            if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
+                stack.push(i);
+            } else {
+                while (!stack.isEmpty() && height[i] <height[stack.peek()]) {
+                    int curr = stack.pop();
+                    while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                        stack.pop();
+                    }
+                    int width = stack.isEmpty() ? i : (i - stack.peek() - 1);
+                    max = Math.max(max, height[curr] * width);
+                }
+                stack.push(i);
+            }
+        }
+        System.out.println("part1=" + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        int rightBound = height.length;
+        while (!stack.isEmpty()) {
+            int curr = stack.pop();
+            while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                stack.pop();
+            }
+            int width = stack.isEmpty() ? rightBound : (rightBound - stack.peek() - 1);
+            max = Math.max(max, height[curr] * width);
+        }
+        System.out.println("part2=" + (System.currentTimeMillis() - start));
+        
+        return max;
+    }
+    
+ // method 5
+    public int largestRectangleArea5(int[] height) {
+        
+        if (height == null || height.length == 0)
+            return 0;
+        int max = 0;
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        
+        long start = System.currentTimeMillis();
+        int i = 0;
+        while(i < height.length) {
+            if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
+                stack.push(i++);
+            } else {
+                int curr = stack.pop();
+                while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                    stack.pop();
+                }
+                int width = stack.isEmpty() ? i : (i - stack.peek() - 1);
+                max = Math.max(max, height[curr] * width);
+            }
+        }
+        System.out.println("part1=" + (System.currentTimeMillis() - start));
+        start = System.currentTimeMillis();
+        int rightBound = height.length;
+        while (!stack.isEmpty()) {
+            int curr = stack.pop();
+//            long start2 = System.currentTimeMillis();
+            while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                stack.pop();
+            }
+//            System.out.println("part2.1=" + (System.currentTimeMillis() - start2));
+            int width = stack.isEmpty() ? rightBound : (rightBound - stack.peek() - 1);
+            max = Math.max(max, height[curr] * width);
+        }
+        System.out.println("part2=" + (System.currentTimeMillis() - start));
+        
+        return max;
+    }
+    
+    public int largestRectangleArea6(int[] h) {
+        if (h == null || h.length == 0)
+            return 0;
+        int max = 0;
+        int[] height = new int[h.length + 1];
+        for (int i = 0; i < h.length; i++) {
+            height[i] = h[i];
+        }
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        
+        for (int i = 0; i < height.length; i++) {
+            if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
+                stack.push(i);
+            } else {
+                while (!stack.isEmpty() && height[i] <height[stack.peek()]) {
+                    int curr = stack.pop();
+                    while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                        stack.pop();
+                    }
+                    int width = stack.isEmpty() ? i : (i - stack.peek() - 1);
+                    max = Math.max(max, height[curr] * width);
+                }
+                stack.push(i);
+            }
+        }
+        return max;
+    }
+    
+    public int largestRectangleArea7(int[] h) {
+        if (h == null || h.length == 0)
+            return 0;
+        int max = 0;
+        int[] height = new int[h.length + 1];
+        for (int i = 0; i < h.length; i++) {
+            height[i] = h[i];
+        }
+        LinkedList<Integer> stack = new LinkedList<Integer>();
+        
+        int n = height.length;
+        for (int i = 0; i < n; i++) {
+            if (stack.isEmpty() || height[i] >= height[stack.peek()]) {
+                stack.push(i);
+            } else {
+                while (!stack.isEmpty() && height[i] <height[stack.peek()]) {
+                    int curr = stack.pop();
+                    while (!stack.isEmpty() && height[curr] == height[stack.peek()]) {
+                        stack.pop();
+                    }
+                    int width = stack.isEmpty() ? i : (i - stack.peek() - 1);
+                    max = Math.max(max, height[curr] * width);
+                }
+                stack.push(i);
+            }
+        }
+        return max;
+    }
+    
+    public static void main(String[] args) {
+        LargestRectangleInHistogram obj = new LargestRectangleInHistogram();
+        int[] height = new int[300000];
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 300000; i++)
+            height[i] = 1;
+        System.out.println("cost1=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+//        System.out.println(obj.largestRectangleArea1(height));
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea2(height));
+        System.out.println("cost2=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea3(height));
+        System.out.println("cost3=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea4(height));
+        System.out.println("cost4=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea5(height));
+        System.out.println("cost5=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea6(height));
+        System.out.println("cost6=" + (System.currentTimeMillis() - start));
+        System.out.println();
+        
+        start = System.currentTimeMillis();
+        System.out.println(obj.largestRectangleArea7(height));
+        System.out.println("cost7=" + (System.currentTimeMillis() - start));
+        
+    }
 }
