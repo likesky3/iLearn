@@ -9,11 +9,11 @@ public class IPConversionUtil {
 		IPConversionUtil obj = new IPConversionUtil();
 		obj.convertIP1();
 		System.out.println("\n=======FILE=======");
-		obj.convertIP();
+//		obj.convertIP();
 	}
 	
 	public void convertIP1() {
-        String ip = "106.38.133.14";
+        String ip = "115.47.4.167";
         String ips[] = ip.split("\\.");
         String res = "";
 //              long ten = 0;

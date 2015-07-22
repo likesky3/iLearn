@@ -3,7 +3,11 @@ package org.work.basic;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
 
 import org.work.leetcode.TreeNode;
 
@@ -11,8 +15,112 @@ enum Season {
 	SPRING, SUMMER, FALL, WINTER
 }
 
+class Interval {
+    int start;
+    int end;
+
+    Interval() {
+        start = 0;
+        end = 0;
+    }
+
+    Interval(int s, int e) {
+        start = s;
+        end = e;
+    }
+}
 public class Test {
 
+    public static void main(String[] args) {
+
+
+    }
+    
+    Comparator<Interval> comparator = new Comparator<Interval>() {
+        public int compare(Interval inter1, Interval inter2) {
+            if (inter1.start > inter2.start) return 1;
+            else if (inter1.start < inter2.start) return -1;
+            else if (inter1.end < inter2.start) return -1;
+            else if (inter1.end > inter2.end) return 1;
+            else return 0;
+        }
+    };
+       
+    public List<Interval> merge(List<Interval> intervals) {
+        Interval[] array = intervals.toArray(new Interval[intervals.size()]);
+        Arrays.sort(array, comparator);
+        // Caution! 从Arrays.asList得到的链表不支持add() 和 remove()操作，使用Iterator也不行
+        List<Interval> sorted = Arrays.asList(array);
+        intervals = new ArrayList<Interval>(sorted);
+        Iterator<Interval> iter = intervals.iterator();
+        while (iter.hasNext()) {
+            Interval curr = iter.next();
+            if (!iter.hasNext()) break;
+            Interval next = iter.next();
+            if (next. start <= curr.end) {
+                if (next.start == curr.start) {
+                    Interval tmp = curr;
+                    curr = next;
+                    next = tmp;
+                } else if (next.end > curr.end) {
+                    curr.end = next.end;
+                }
+                iter.remove();
+            }
+        }
+        return intervals;
+    }
+    public List<Interval> merge1(List<Interval> intervals) {
+        Interval[] array = intervals.toArray(new Interval[intervals.size()]);
+        Arrays.sort(array, comparator);
+        intervals = Arrays.asList(array);
+        int i = 0;
+        while (i < intervals.size() - 1) {
+            if (intervals.get(i + 1). start <= intervals.get(i).end) {
+                if (intervals.get(i + 1).start == intervals.get(i).start) {
+                    intervals.remove(i);
+                } else if (intervals.get(i + 1).end <= intervals.get(i).end) {
+                    intervals.remove(i + 1);
+                } else {
+                    intervals.get(i).end = intervals.get(i + 1).end;
+                    intervals.remove(i + 1);
+                }
+            }
+            i++;
+        }
+        return intervals;
+    }
+    
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        if (prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0)
+            return true;
+        // build graph
+        ArrayList<HashSet<Integer>> graph = new ArrayList<HashSet<Integer>>(numCourses);
+        int[] indegree = new int[numCourses];
+        for (int i = 0; i < numCourses; i++) {
+            graph.add(new HashSet<Integer>());
+        }
+        int m = prerequisites.length;
+        for (int i = 0; i < m; i++) {
+            if (graph.get(prerequisites[i][0]).add(prerequisites[i][1]))
+                indegree[prerequisites[i][1]]++;
+        }
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        for (int i = 0; i < numCourses; i++) {
+            if (indegree[i] == 0) queue.offer(i);
+        }
+        int counter = 0;
+        while (!queue.isEmpty()) {
+            counter++;
+            int curr = queue.poll();
+            for (int w : graph.get(curr)) {
+                if (--indegree[w] == 0) queue.offer(w);
+            }
+        }
+        return counter == numCourses;
+    }
+    
+    
     class WrappedNum{
         int value;
         int idx;
@@ -62,11 +170,56 @@ public class Test {
 		System.out.println();
 	}
 
-	public static void main(String[] args) {
-	    int[] nums = {1, 3, 6, 2};
-	    Test obj = new Test();
-	    System.out.println(obj.containsNearbyAlmostDuplicate(nums,1, 2));
-	}
+	
+	public int myAtoi(String str) throws Exception{
+        if (str == null || str.length() == 0)
+            return 0;
+        int val = 0;
+        boolean isPositive = true;
+        str = str.trim();
+        for (int i = 0; i < str.length(); i++) {
+            char c = str.charAt(i);
+            if (c >= '0' && c <= '9') {
+                int tmp = val * 10;
+                if (tmp > 0) {throw new Exception("Overflow");}
+                tmp = tmp - (c - '0');
+                if (tmp > 0) {throw new Exception("Overflow");}
+                val = tmp;
+            } else if (c == '-') {
+                isPositive = false;
+            }
+        }
+        if (isPositive) {
+            if (val == Integer.MIN_VALUE) {throw new Exception("Overflow");}
+            return -val;
+        } else {
+            return val;
+        }
+    }
+	
+	public String longestCommonPrefix(String[] strs) {
+        if (strs == null || strs.length == 0) return null;
+        String shortest = strs[0];
+        int n = strs.length;
+        for (int i = 1; i < n; i++) {
+            if (strs[i].length() < shortest.length())
+                shortest = strs[i];
+        }
+        String prefix = null;
+        for (int j = shortest.length(); j >= 1; j++) {
+            prefix = shortest.substring(0, j);
+            int i = 0;
+            while (i < n) {
+                if (strs[i].startsWith(prefix)) 
+                    i++;
+                else
+                    break;
+            }
+            if (i == n)
+                return prefix;
+        }
+        return "";
+    }
 
 	public int rangeBitwiseAnd(int m, int n) {
         long result = 0;

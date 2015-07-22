@@ -1,14 +1,40 @@
 package org.work.leetcode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class E000_Solution {
 	public static void main(String[] args) {
 		E000_Solution obj = new E000_Solution();
-		int[] prices = {6,1,3,2,4,7};
-		System.out.println(obj.maxProfit(prices));
+		StringBuilder sb = new StringBuilder();
+		String aString = "/./././";
+		aString = aString.replaceAll("/./", "/");
+		System.out.println(aString);
+		HashMap<String, Integer> map = new HashMap<String, Integer>();
+		System.out.println(map.get("abc"));
 	}
+	
+	public List<List<Integer>> generate(int numRows) {
+	    List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (numRows <= 0) return result;
+        List<Integer> row1 = new ArrayList<Integer>();
+        row1.add(1);
+        result.add(row1);
+        if (numRows == 1) return result;
+        List<Integer> lastRow = row1;
+        for (int i = 2; i <= numRows; i++) {
+            List<Integer> currRow = new ArrayList<Integer>();
+            currRow.add(1);
+            for (int j = 0; j < lastRow.size() - 1; j++) {
+                currRow.add(lastRow.get(i) + lastRow.get(i + 1));
+            }
+            currRow.add(1);
+            result.add(currRow);
+            lastRow = currRow;
+        }
+        return result;
+    }
 	
     class ProfitInfo {
         int buyDay;
