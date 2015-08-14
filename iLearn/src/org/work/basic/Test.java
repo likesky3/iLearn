@@ -32,10 +32,56 @@ class Interval {
 public class Test {
 
     public static void main(String[] args) {
-
-
+        Test obj = new Test();
+        long absa = Integer.MIN_VALUE;
+        System.out.println(-absa);
+        Math.pow(2, 3);
+        StringBuilder ss = new StringBuilder("abc");
+        ss.insert(ss.indexOf("b"), "1");
+        System.out.println(ss.toString());
+        
     }
     
+    public int mySqrt(int x) {
+        if (x <= 0)
+            return 0;
+        int left = 1, right = x / 2 + 1;
+        int mid = 0;
+        while (left <= right) {
+            mid = left + ((right - left) >> 1);
+            long midSquare = mid * mid;
+            if (midSquare <= x && x < (mid + 1) * (mid + 1))
+                return mid;
+            else if (midSquare > x)
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return right;
+    }
+    
+    int[] nums = {1,2,3,4,5,6,7,8,9};
+    public List<List<Integer>> combinationSum3(int k, int n) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        if (k <= 0 || n <= 0)
+            return result;
+        recur(n, k, 0, new ArrayList<Integer>(), result);
+        System.out.println(result.size());
+        return result;
+    }
+    
+    public void recur(int sum, int k, int start, List<Integer> item, List<List<Integer>> result) {
+        if (sum <= 0 || item.size() >= k) {
+            if (sum == 0 && item.size() == k)
+                result.add(new ArrayList<Integer>(item));
+            return;
+        }
+        for (int i = start; i < nums.length; i++) {
+            item.add(nums[i]);
+            recur(sum - nums[i], k, i + 1, item, result);
+            item.remove(item.size() - 1);
+        }
+    }
     Comparator<Interval> comparator = new Comparator<Interval>() {
         public int compare(Interval inter1, Interval inter2) {
             if (inter1.start > inter2.start) return 1;

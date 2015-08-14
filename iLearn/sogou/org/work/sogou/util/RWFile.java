@@ -20,20 +20,36 @@ public class RWFile {
             e.printStackTrace();
         }
         RWFile obj = new RWFile();
-        obj.buildCheckInterleavingCmd();
-//        obj.buildDumpHost();
+//        obj.buildCheckInterleavingCmd();
+//        obj.buildHost();
+        String a = "A";
+        String aa = "8";
+        System.out.println(a.charAt(0) >= '0' && a.charAt(0) <='9');
+        System.out.println(aa.charAt(0) >= '0' && aa.charAt(0) <='9');
     }
     
     public void buildDumpHost() {
         StringBuilder sb = new StringBuilder();
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= 24; i++) {
             if (i < 10)
-                sb.append("resinhub0").append(i).append(".web.sjs");
+                sb.append("resinhub0").append(i).append(".wap.sjs");
             else
-                sb.append("resinhub").append(i).append(".web.sjs");
+                sb.append("resinhub").append(i).append(".wap.sjs");
             sb.append("_");
         }
         System.out.println(sb.toString());
+    }
+    
+    public void buildHost() {
+        for (int i = 1; i <= 24; i++) {
+            StringBuilder sb = new StringBuilder();
+            if (i < 10)
+                sb.append("resinhub0").append(i).append(".wap.sjs");
+            else
+                sb.append("resinhub").append(i).append(".wap.sjs");
+            System.out.println(sb.toString());
+        }
+        
     }
     
 //    a=`fgrep interOrder /search/odin/daemon/searchhub/log/history/searchhub.err.log.2015-07-21_20 -c`;
